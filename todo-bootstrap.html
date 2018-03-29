@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .del{
+            text-decoration-line: line-through;
+            color:#ccc !important;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="container-fluid">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">TodoList</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading" style="text-align: center">
+                        <h3 class="panel-title">你有{{count}}件事情待做哦~</h3>
+                        <br>
+                        <input type="text" class="form-control" v-model="title" @keyup.enter="add">{{title}}
+                    </div>
+                    <div class="panel-body">
+                        <input type="checkbox" v-model="checkAll" @change="changeAll"> 全选
+                        <ul class="list-group">
+                            <!--双击可以编辑当前的事件-->
+                            <li class="list-group-item" v-for="todo in filterToDos" @dblclick="edit(todo)" >
+                                <span v-show="cur!=todo">
+                                    <!--<label >-->
+                                        <input type="checkbox" v-model="todo.isSelect" @change="preCheck">
+                                        <span :class="{del:todo.isSelect}">
+                                           <span style="margin-left: 20px">{{todo.title}}</span>
+                                        </span>
+                                    <!--</label>-->
+                                    <button class="pull-right btn btn-danger btn-xs" @click="del(todo)">&times;</button>
+                                    <!--<span class="pull-right" style="margin-right: 20px;color:#ccc!important;font-size: 5px"> {{todo.time}}</span>-->
+                                </span>
+                                <input type="text" v-model="todo.title" v-show="cur==todo" @blur="doEdit" @keydown.enter="doEdit" v-focus="cur==todo">
+                            </li>
+                        </ul>
+                        <ul class="nav nav-pills">
+                            <li role="presentation" :class="{active:hash ==='all'}"><a href="#/all">全部</a></li>
+                            <li role="presentation" :class="{active:hash ==='finish'}"><a href="#/finish">已完成</a></li>
+                            <li role="presentation" :class="{active:hash ==='unfinish'}"><a href="#/unfinish">未完成</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./node_modules/axios/dist/axios.js"></script>
+<script src="./node_modules/mockjs/dist/mock.js"></script>
+<script src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./assets/js/todo.js"></script>
+</html>
